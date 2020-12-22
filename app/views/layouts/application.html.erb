@@ -12,21 +12,27 @@
   <body>
     <div class="ui attached stackable menu">
       <div class="ui container">
-        <a class="item">
+        <a class="item" href="<%= root_path %>">
           <i class="home icon"></i> Home
         </a>
         <a class="item">
           <i class="grid layout icon"></i> Discover
         </a>
         <div class="right item">
-          <div class="ui simple dropdown item">
-            Account
-            <i class="dropdown icon"></i>
-            <div class="menu">
-              <a class="item"><i class="edit icon"></i> Edit Profile</a>
-              <a class="item"><i class="sign-out icon"></i> Logout</a>
+          <% if user_signed_in? %>
+            <div class="ui simple dropdown item">
+              Account
+              <i class="dropdown icon"></i>
+              <div class="menu">
+                <a class="item"><i class="edit icon"></i> Edit Profile</a>
+                <a class="item"><i class="sign-out icon"></i> Logout</a>
+              </div>
             </div>
-          </div>
+          <% else %>
+            <a class="item" href="<%= new_user_registration_path %>">
+              <i class="sign-in icon"></i> Login
+            </a>
+          <% end %>
         </div>
       </div>
     </div>
