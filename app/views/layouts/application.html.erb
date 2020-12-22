@@ -10,6 +10,27 @@
   </head>
 
   <body>
+    <div class="ui attached stackable menu">
+      <div class="ui container">
+        <a class="item">
+          <i class="home icon"></i> Home
+        </a>
+        <a class="item">
+          <i class="grid layout icon"></i> Discover
+        </a>
+        <div class="right item">
+          <div class="ui simple dropdown item">
+            Account
+            <i class="dropdown icon"></i>
+            <div class="menu">
+              <a class="item"><i class="edit icon"></i> Edit Profile</a>
+              <a class="item"><i class="sign-out icon"></i> Logout</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <%= semantic_flash %>
     <p class="notice"><%= notice %></p>
     <p class="alert"><%= alert %></p>
     <%= yield %>
