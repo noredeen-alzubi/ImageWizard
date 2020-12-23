@@ -29,6 +29,7 @@ gem 'semantic-ui-sass'
 
 gem 'devise'
 
+gem 'redis'
 gem 'sidekiq'
 
 # Reduces boot times through caching; required in config/boot.rb
