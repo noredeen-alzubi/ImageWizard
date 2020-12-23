@@ -1,6 +1,8 @@
 $(function () {
     //shorthand document.ready function
 
+    var JSZip = require("jszip");
+
     function handleFile(file, zip) {
         if (!["image/png", "image/jpg", "image/jpeg"].includes(file.type)) {
             return false;
