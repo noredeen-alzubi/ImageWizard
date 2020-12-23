@@ -4,5 +4,7 @@ Rails.application.routes.draw do
     registrations: 'users/registrations'
   }
   resources :images
+  resources :archives, only: %i[create]
+  get '/bulk/new', to: 'archives#new'
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end
