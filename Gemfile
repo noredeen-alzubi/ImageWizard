@@ -29,8 +29,13 @@ gem 'semantic-ui-sass'
 
 gem 'devise'
 
+gem 'acts-as-taggable-on', '~> 6.0'
+
 gem 'redis'
 gem 'sidekiq'
+
+gem 'aws-sdk'
+gem 'dotenv'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.2', require: false

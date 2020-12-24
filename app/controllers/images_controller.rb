@@ -1,15 +1,13 @@
 class ImagesController < ApplicationController
   before_action :set_image, only: [:show, :edit, :update, :destroy]
-  before_action :authenticate_user!, only: %i[new edit create update destroy]
+  before_action :authenticate_user!, only: %i[new bulk_new create destroy]
 
   # GET /images
-  # GET /images.json
   def index
     @images = Image.all
   end
 
   # GET /images/1
-  # GET /images/1.json
   def show
   end
 
@@ -18,14 +16,13 @@ class ImagesController < ApplicationController
     @image = Image.new
   end
 
-  # GET /images/1/edit
-  def edit
+  def bulk_new
+    @image = Image.new
   end
 
   # POST /images
-  # POST /images.json
   def create
-    @image = Image.new(image_params)
+    @image = Image.new(image_params.merge(user_id: current_user.id))
 
     respond_to do |format|
       if @image.save
@@ -38,22 +35,7 @@ class ImagesController < ApplicationController
     end
   end
 
-  # PATCH/PUT /images/1
-  # PATCH/PUT /images/1.json
-  def update
-    respond_to do |format|
-      if @image.update(image_params)
-        format.html { redirect_to @image, notice: 'Image was successfully updated.' }
-        format.json { render :show, status: :ok, location: @image }
-      else
-        format.html { render :edit }
-        format.json { render json: @image.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
   # DELETE /images/1
-  # DELETE /images/1.json
   def destroy
     @image.destroy
     respond_to do |format|
@@ -71,6 +53,6 @@ class ImagesController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def image_params
-    params.fetch(:image, {})
+    params.require(:image).permit(:picture)
   end
 end

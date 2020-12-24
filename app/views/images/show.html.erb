@@ -1,4 +1,29 @@
 <p id="notice"><%= notice %></p>
 
-<%= link_to 'Edit', edit_image_path(@image) %> |
+<div class="ui container center first">
+  <div class="ui placeholder fluid">
+    <%= image_tag @image.picture, class: 'ui fluid rounded image' %>
+  </div>
+  <br />
+  <br />
+  <h2 class="labels">Detected Labels (From Highest to Lowest Confidence):
+    <% unless @image.processed? %>
+      <div class="ui active inline medium loader"></div><span class="processing">Processing Image</span>
+    <% end %>
+  </h2>
+  <div>
+    <% if @image.processed? %>
+      <% @image.label_list.each do |label| %>
+        <span class="ui large tag label"><%= label %></span>
+      <% end %>
+    <% end %>
+  </div>
+</div>
+
 <%= link_to 'Back', images_path %>
+
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
