@@ -1,7 +1,10 @@
 <p id="notice"><%= notice %></p>
 
 <div class="ui container center first">
-  <div class="ui hidden placeholder fluid" id="placeholder">
+  <div class="ui placeholder fluid" id="placeholder">
+    <h3 class="ui top attached header">
+      ID: <span class="text-gray"><%= @image.id %></span>
+    </h3>
     <div class="rectangular image">
       <% if @image.picture.attached? %>
         <%= image_tag @image.picture, class: 'ui fluid rounded image', onload: "this.parentNode.parentNode.classList.remove('placeholder')" %>
@@ -12,17 +15,19 @@
   </div>
   <br />
   <br />
-  <h2 class="labels">Detected Labels (From Highest to Lowest Confidence):
-    <% unless @image.processed? %>
-      <div class="ui active inline medium loader"></div><span class="processing">Processing Image</span>
-    <% end %>
-  </h2>
-  <div>
-    <% if @image.processed? %>
-      <% @image.label_list.each do |label| %>
-        <span class="ui large tag label"><%= label %></span>
+  <div class="ui purple segment">
+    <h2 class="labels">Detected Labels (From Highest to Lowest Confidence):<% if @image.processed? %><i class="check circle green icon"></i><% end %>
+      <% unless @image.processed? %>
+        <div class="ui active inline medium loader"></div><span class="processing">Processing Image...</span>
       <% end %>
-    <% end %>
+    </h2>
+    <div class="labels">
+      <% if @image.processed? %>
+        <% @image.label_list.each do |label| %>
+          <span class="ui large tag label"><%= label %></span>
+        <% end %>
+      <% end %>
+    </div>
   </div>
 </div>
 

@@ -28,7 +28,7 @@ input {
     font-size: 1.4rem;
 }
 
-.labels {
+h2.labels {
     .loader {
         margin-left: 40px !important;
     }
@@ -36,6 +36,10 @@ input {
 
 .text-purple {
     color: purple;
+}
+
+.text-gray {
+    color: gray;
 }
 
 .half-width {
@@ -48,4 +52,16 @@ input {
 
 a.image.me {
     min-height: 100px;
+}
+
+div.labels span:not(:first-child) {
+    margin-left: 20px !important;
+}
+
+div.labels {
+    line-height: 3;
+}
+
+.labels .check {
+    margin-left: 11px;
 }
