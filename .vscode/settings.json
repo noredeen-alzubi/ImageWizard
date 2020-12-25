@@ -1,9 +1,0 @@
-{
-  "files.associations": {
-    "*.erb": "erb"
-  },
-  "vscode-erb-beautify.indentBy": 2,
-  "vscode-erb-beautify.keepBlankLines": 1,
-  "vscode-erb-beautify.stopOnErrors": true,
-  "vscode-erb-beautify.tab": true
-}
