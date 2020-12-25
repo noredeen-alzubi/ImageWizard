@@ -2,15 +2,6 @@ import "./semantic.min.js";
 
 $(function () {
     let fileCount = 0;
-    // $(`#1`).progress({
-    //     text: {
-    //         active: "Uploading...",
-    //         success: "Done!",
-    //         error: "Failed :(",
-    //     },
-    // });
-    // $(`#${1}`).progress("set percent", 50);
-
     $("form#bulk-upload").on("submit", function (e) {
         e.preventDefault();
         let formElement = document.forms.namedItem("bulk");
@@ -30,6 +21,10 @@ $(function () {
                         uploadFileToS3(entries[i], files[i], i + 1);
                     }
                 });
+            } else {
+                alert(
+                    "Something weird happened. Please refresh the page and try again."
+                );
             }
         });
     });

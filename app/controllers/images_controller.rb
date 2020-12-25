@@ -1,10 +1,14 @@
 class ImagesController < ApplicationController
-  before_action :set_image, only: [:show, :destroy]
-  before_action :authenticate_user!, only: %i[new bulk_new create bulk_create destroy get_presigned_urls]
+  before_action :set_image, only: %i[show destroy]
+  before_action :authenticate_user!, only: %i[my_index new bulk_new create bulk_create destroy get_presigned_urls]
 
   # GET /images
   def index
     @images = Image.all
+  end
+
+  def my_index
+    @images = current_user.images
   end
 
   # GET /images/1
@@ -57,18 +61,18 @@ class ImagesController < ApplicationController
 
   def bulk_create
     @image = Image.new(image_params.merge(user_id: current_user.id))
-      if @image.save
-        head :created
-      else
-        render json: @image.errors, status: :unprocessable_entity
-      end
+    if @image.save
+      head :created
+    else
+      head :unprocessable_entity
+    end
   end
 
   # DELETE /images/1
   def destroy
     @image.destroy
     respond_to do |format|
-      format.html { redirect_to images_url, notice: 'Image was successfully destroyed.' }
+      format.html { redirect_to me_images_url, notice: 'Image was successfully destroyed.' }
       format.json { head :no_content }
     end
   end

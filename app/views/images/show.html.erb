@@ -1,12 +1,14 @@
 <p id="notice"><%= notice %></p>
 
 <div class="ui container center first">
-  <div class="ui placeholder fluid">
-    <% if @image.picture.attached? %>
-      <%= image_tag @image.picture, class: 'ui fluid rounded image' %>
-    <% else %>
-      <img class="ui fluid rounded image" src="<%= @image.picture_url %>">
-    <% end %>
+  <div class="ui hidden placeholder fluid" id="placeholder">
+    <div class="rectangular image">
+      <% if @image.picture.attached? %>
+        <%= image_tag @image.picture, class: 'ui fluid rounded image', onload: "this.parentNode.parentNode.classList.remove('placeholder')" %>
+      <% else %>
+        <img class="ui fluid rounded image" onload="this.parentNode.parentNode.classList.remove('placeholder')" src="<%= @image.picture_url %>">
+      <% end %>
+    </div>
   </div>
   <br />
   <br />
@@ -23,8 +25,6 @@
     <% end %>
   </div>
 </div>
-
-<%= link_to 'Back', images_path %>
 
 <br/>
 <br/>

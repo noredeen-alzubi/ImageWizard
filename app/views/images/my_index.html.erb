@@ -1,0 +1,12 @@
+<div class="ui container first">
+  <h1>My Images</h1>
+  <br/>
+  <div class="ui three stackable cards">
+    <% @images.each do |image| %>
+      <%= render 'me_image', image: image %>
+    <% end %>
+  </div>
+</div>
+
+<br>
+<br>

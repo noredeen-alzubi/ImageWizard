@@ -1,0 +1,22 @@
+<div class="ui card">
+  <a class="image me" href="<%= url_for image %>">
+    <%= image_tag(image.picture_url || image.picture) %>
+  </a>
+  <div class="content">
+    <div class="meta">
+      <span class="date"><%= image.id %></span>
+    </div>
+  </div>
+  <div class="extra content">
+    Labeling:
+    <% if image.processed? %>
+      <i class="check circle green icon"></i>
+    <% else %>
+      <i class="spinner loading icon"></i>
+    <% end %>
+    <i class="user icon"></i>
+    <div class="right floated author">
+      <%= link_to 'Delete', image, method: :delete, data: { confirm: 'Are you sure?' } %>
+    </div>
+  </div>
+</div>

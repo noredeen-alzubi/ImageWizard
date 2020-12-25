@@ -1,17 +1,21 @@
-<%= form_with(model: @image, local: true, html: {id: 'bulk-upload', name: 'bulk'}) do |form| %>
+<div class="ui container single">
+  <h2>Fast Multi-image Upload</h2>
+  <%= form_with(model: @image, local: true, html: {id: 'bulk-upload', name: 'bulk', class: 'ui form'}) do |form| %>
 
-  <div class="field">
-    <%= form.label :picture %>
-    <%= form.file_field :picture, multiple: true, id: 'files', accept: '.jpeg, .png' %>
-  </div>
+    <div class="field">
+      <%= form.label :pictures %>
+      <%= form.file_field :picture, multiple: true, id: 'files', accept: '.jpeg, .png' %>
+    </div>
 
-  <div class="actions">
-    <%= form.submit %>
-  </div>
-<% end %>
-
-<div class="ui container center half-width">
-  <div class="ui segments" id="bulk-progress">
+    <div class="actions text-center">
+      <%= form.submit value: 'Upload', class: 'ui primary button' %>
+    </div>
+  <% end %>
+  <br/>
+  <br/>
+  <div class="ui container center half-width">
+    <div class="ui segments" id="bulk-progress">
+    </div>
   </div>
 </div>
 
