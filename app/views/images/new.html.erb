@@ -1,5 +1,7 @@
 <div class="ui container single">
   <h2>New Image</h2>
+  <p>Supported types: JPEG, PNG</p>
+  <br/>
   <%= form_with(model: @image, local: true, html: {id: 'upload', class: 'ui form'}) do |form| %>
     <% if @image.errors.any? %>
       <div id="error_explanation">
