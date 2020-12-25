@@ -1,2 +1,41 @@
-<h1>Pages#home</h1>
-<p>Find me in app/views/pages/home.html.erb</p>
+<br>
+<h1 class="text-center">Welcome to Image-Wiz</h1>
+
+<br>
+<br>
+
+<% if user_signed_in? %>
+  <div class="ui placeholder segment">
+    <div class="ui two column stackable center aligned grid">
+      <div class="ui vertical divider">Or</div>
+      <div class="middle aligned row">
+        <div class="column">
+          <div class="ui icon header">
+            <i class="camera icon"></i>
+            Upload One Image
+          </div>
+          <a class="ui primary button" href="<%= new_image_url %>">
+            Single Upload
+          </a>
+        </div>
+        <div class="column">
+          <div class="ui icon header">
+            <i class="images icon"></i>
+            Upload Many Images In Bulk
+          </div>
+          <a class="ui primary button" href="<%= bulk_new_url %>">
+            Bulk Upload
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+<% else %>
+  <div class="ui container center">
+    <div class="ui info message">
+      <p>You don't need an account to browse and find images, but you must 
+      log in or create an account if you want to upload and process your
+      own images.</p>
+    </div>
+  </div>
+<% end %>

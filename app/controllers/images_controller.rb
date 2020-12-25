@@ -1,6 +1,6 @@
 class ImagesController < ApplicationController
-  before_action :set_image, only: [:show, :edit, :update, :destroy]
-  before_action :authenticate_user!, only: %i[new bulk_new create destroy]
+  before_action :set_image, only: [:show, :destroy]
+  before_action :authenticate_user!, only: %i[new bulk_new create bulk_create destroy get_presigned_urls]
 
   # GET /images
   def index
@@ -20,6 +20,26 @@ class ImagesController < ApplicationController
     @image = Image.new
   end
 
+  def get_presigned_urls
+    if !params[:count] && !params[:count].is_a?(Integer)
+      head :bad_request
+    end
+
+    signatures = []
+    params[:count].to_i.times do
+      presigned_url = S3_BUCKET.presigned_post(
+        key: "#{SecureRandom.uuid}${filename}",
+        success_action_status: '201',
+        signature_expiration: (Time.now.utc + 15.minutes),
+        acl: 'public-read'
+      )
+      data = { url: presigned_url.url, url_fields: presigned_url.fields }
+      signatures << data
+    end
+    puts "\n\nSUCCESS: #{signatures}\n\n"
+    render json: signatures, status: :ok
+  end
+
   # POST /images
   def create
     @image = Image.new(image_params.merge(user_id: current_user.id))
@@ -33,6 +53,15 @@ class ImagesController < ApplicationController
         format.json { render json: @image.errors, status: :unprocessable_entity }
       end
     end
+  end
+
+  def bulk_create
+    @image = Image.new(image_params.merge(user_id: current_user.id))
+      if @image.save
+        head :created
+      else
+        render json: @image.errors, status: :unprocessable_entity
+      end
   end
 
   # DELETE /images/1
@@ -53,6 +82,6 @@ class ImagesController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def image_params
-    params.require(:image).permit(:picture)
+    params.require(:image).permit(:picture, :picture_url)
   end
 end

@@ -6,6 +6,6 @@ class Image < ApplicationRecord
   after_commit :process
 
   def process
-    MlWorker.perform_async(id)
+    MlWorker.perform_async(id) unless picture_url
   end
 end

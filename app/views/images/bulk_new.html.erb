@@ -1,0 +1,18 @@
+<%= form_with(model: @image, local: true, html: {id: 'bulk-upload', name: 'bulk'}) do |form| %>
+
+  <div class="field">
+    <%= form.label :picture %>
+    <%= form.file_field :picture, multiple: true, id: 'files', accept: '.jpeg, .png' %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>
+
+<div class="ui container center half-width">
+  <div class="ui segments" id="bulk-progress">
+  </div>
+</div>
+
+<%= javascript_pack_tag 'bulk' %>

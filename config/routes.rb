@@ -3,7 +3,9 @@ Rails.application.routes.draw do
   devise_for :users, controllers: {
     registrations: 'users/registrations'
   }
+
   resources :images, except: %i[edit update]
-  # get '/bulk/new', to: 'archives#new'
-  # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
+  post '/presigned_urls', to: 'images#get_presigned_urls'
+  get '/bulk/new', to: 'images#bulk_new'
+  post '/bulk/single', to: 'images#bulk_create'
 end
