@@ -6,7 +6,6 @@ class Image < ApplicationRecord
 
   after_commit :process
   before_destroy :handle_s3_resource
-
   scope :by_join_date, -> { order('created_at DESC') }
 
   def process
@@ -20,11 +19,21 @@ class Image < ApplicationRecord
   # Cannot user <%= image_tag %> with this
   def cdn_url
     if picture_url
-      "//#{ENV['CDN_HOST']}/#{picture_url.match(/(?<=com\/).*/)}"
+      "//#{ENV['CDN_HOST']}/#{filename}"
     elsif Rails.env.development? || Rails.env.test?
       Rails.application.routes.url_helpers.rails_blob_url(picture, only_path: true)
     else
       "//#{ENV['CDN_HOST']}/#{picture.url}"
+    end
+  end
+
+  def filename
+    if picture_url
+      picture_url.match(/(?<=com\/).*/).to_s
+    else
+      return nil unless picture.attached?
+
+      picture.filename.to_s
     end
   end
 end
