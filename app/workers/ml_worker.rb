@@ -3,7 +3,7 @@ class MlWorker
 
   def perform(image_id)
     image = Image.find_by id: image_id
-    return if !image || image.processed?
+    return if !image || image.processed? || Rails.env.development?
 
     labels = fetch_labels(image)
     unless labels.empty?
@@ -24,7 +24,7 @@ class MlWorker
       ENV['AWS_SECRET_ACCESS_KEY']
     )
     client = Aws::Rekognition::Client.new credentials: credentials
-    if Rails.env.development? && !image.picture_url
+    if Rails.env.development? || !image.picture_url
       attrs = {
         image: {
           bytes: image.picture.download

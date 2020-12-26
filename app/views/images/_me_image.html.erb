@@ -1,6 +1,10 @@
 <div class="ui card">
   <a class="image me" href="<%= url_for image %>">
-    <img src="<%= image.cdn_url %>">
+      <% if image.picture.attached? %>
+        <%= image_tag image.picture %>
+      <% else %>
+        <img src="<%= image.cdn_url %>">
+      <% end %>
   </a>
   <div class="content">
     <div class="meta">

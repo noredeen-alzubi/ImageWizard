@@ -22,8 +22,7 @@
     </h3>
     <div class="rectangular image">
       <% if @image.picture.attached? %>
-        <img src="<%= @image.cdn_url %>" class="ui fluid rounded image", onload="this.parentNode.parentNode.classList.remove('placeholder')">
-        <%# <%= image_tag @image.cdn_url, class: 'ui fluid rounded image', onload: "this.parentNode.parentNode.classList.remove('placeholder')" %>
+        <%= image_tag @image.picture, class: 'ui fluid rounded image', onload: "this.parentNode.parentNode.classList.remove('placeholder')" %>
       <% else %>
         <img class="ui fluid rounded image" onload="this.parentNode.parentNode.classList.remove('placeholder')" src="<%= @image.cdn_url %>">
       <% end %>
