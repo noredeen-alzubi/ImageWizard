@@ -1,24 +1,9 @@
-# README
+# Shopify Intern Dev Challenge 2021
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+This is my spin on an image repository with Ruby on Rails and PostgreSQL. I've chosen to do this without ActiveStorage to have complete freedom with how images are handled. This choice allowed me to use background jobs (Sidekiq and Redis) for all the heavy lifting.
 
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+- **Image labelling via the Amazon Rekognition service**: On every image upload, I enque a background job on the backend that communicates with the service to fetch labels for the image.
+- **Search for images with text**: Query images with the labels we got from processing.
+- **Public/Private access**: Images can be made public or private. Only public images will show up in the 'Discover' page and the applicatiob blocks unauthorized/unauthenticated activity (like viewing a private image of another user, or deleting unowned images).
+- **Bulk image upload**: The client retrieves presigned urls from the server and performs asynchronos direct uploads to an S3 bucket. For each successful upload, the S3 API responds with the permanent image url which the client finally posts to the server to instantiate the resource. This approach is faster than the usual ActiveStorage way because it only uploads the images to one location. Using presigned urls keeps sensitive AWS credentials away from JavaScript.
+- **Fast image fetch**: An Amazon CloudFront distribution sits behind the S3 bucket. All images are fetched from this CDN which leads to fast loads.
