@@ -2,26 +2,22 @@
   <h2>New Image</h2>
   <p>Supported types: JPEG, PNG</p>
   <br/>
-  <%= form_with(model: @image, local: true, html: {id: 'upload', class: 'ui form'}) do |form| %>
-    <% if @image.errors.any? %>
-      <div id="error_explanation">
-        <h2><%= pluralize(@image.errors.count, "error") %> prohibited this image from being saved:</h2>
-
-        <ul>
-          <% @image.errors.full_messages.each do |message| %>
-            <li><%= message %></li>
-          <% end %>
-        </ul>
-      </div>
-    <% end %>
-
+  <form id="single-upload" name="single" class="ui form" enctype="multipart/form-data" action="/presigned_urls" accept-charset="UTF-8" method="post">
+    <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
     <div class="field">
-      <%= form.label :picture %>
-      <%= form.file_field :picture, id: 'upload' %>
+      <label>Picture</label>
+      <input multiple="multiple" id="file" accept=".jpeg, .png" type="file" name="image[picture]">
     </div>
-
     <div class="actions text-center">
-      <%= form.submit value: 'Upload', class: 'ui primary button' %>
+      <input type="submit" name="commit" value="Upload" class="ui primary button" data-disable-with="Create Image">
     </div>
-  <% end %>
+  </form>
+  <br/>
+  <br/>
+  <div class="ui container center half-width">
+    <div class="ui segments" id="single-progress">
+    </div>
+  </div>
 </div>
+
+<%= javascript_pack_tag 'single' %>

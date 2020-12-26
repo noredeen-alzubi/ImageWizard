@@ -21,11 +21,7 @@
       ID: <span class="text-gray"><%= @image.id %></span>
     </h3>
     <div class="rectangular image">
-      <% if @image.picture.attached? %>
-        <%= image_tag @image.picture, class: 'ui fluid rounded image', onload: "this.parentNode.parentNode.classList.remove('placeholder')" %>
-      <% else %>
-        <img class="ui fluid rounded image" onload="this.parentNode.parentNode.classList.remove('placeholder')" src="<%= @image.cdn_url %>">
-      <% end %>
+      <img class="ui fluid rounded image" onload="this.parentNode.parentNode.classList.remove('placeholder')" src="<%= @image.cdn_url %>">
     </div>
   </div>
   <br />

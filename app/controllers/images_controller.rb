@@ -61,15 +61,10 @@ class ImagesController < ApplicationController
   # POST /images
   def create
     @image = Image.new(image_params.merge(user_id: current_user.id))
-
-    respond_to do |format|
-      if @image.save
-        format.html { redirect_to @image, notice: 'Image was successfully created.' }
-        format.json { render :show, status: :created, location: @image }
-      else
-        format.html { render :new }
-        format.json { render json: @image.errors, status: :unprocessable_entity }
-      end
+    if @image.save
+      render json: @image, status: :created
+    else
+      head :unprocessable_entity
     end
   end
 
@@ -112,6 +107,6 @@ class ImagesController < ApplicationController
   end
 
   def image_params
-    params.require(:image).permit(:picture, :picture_url, :private)
+    params.require(:image).permit(:picture_url, :private)
   end
 end

@@ -4,11 +4,7 @@
     <%= image.user.full_name || 'Unnamed User' %>
   </div>
   <div class="image">
-      <% if image.picture.attached? %>
-        <%= image_tag image.picture %>
-      <% else %>
-        <img src="<%= image.cdn_url %>">
-      <% end %>
+    <img src="<%= image.cdn_url %>">
   </div>
   <div class="content">
     <div class="meta">

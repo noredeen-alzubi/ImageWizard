@@ -3,7 +3,7 @@ class MlWorker
 
   def perform(image_id)
     image = Image.find_by id: image_id
-    return if !image || image.processed? || Rails.env.development?
+    return if !image || image.processed?
 
     labels = fetch_labels(image)
     unless labels.empty?
@@ -24,24 +24,15 @@ class MlWorker
       ENV['AWS_SECRET_ACCESS_KEY']
     )
     client = Aws::Rekognition::Client.new credentials: credentials
-    if Rails.env.development? || !image.picture_url
-      attrs = {
-        image: {
-          bytes: image.picture.download
-        },
-        max_labels: 15
-      }
-    else
-      attrs = {
-        image: {
-          s3_object: {
-            bucket: ENV['S3_BUCKET'],
-            name: image.filename
-          }
-        },
-        max_labels: 15
-      }
-    end
+    attrs = {
+      image: {
+        s3_object: {
+          bucket: ENV['S3_BUCKET'],
+          name: image.filename
+        }
+      },
+      max_labels: 15
+    }
     response = client.detect_labels attrs
     puts "RESPONSE LABELS: #{response.labels}"
     response.labels

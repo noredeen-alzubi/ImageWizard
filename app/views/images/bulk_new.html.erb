@@ -2,17 +2,16 @@
   <h2>Fast Multi-image Upload</h2>
   <p>Supported types: JPEG, PNG</p>
   <br/>
-  <%= form_with(model: @image, local: true, html: {id: 'bulk-upload', name: 'bulk', class: 'ui form'}) do |form| %>
-
+  <form id="bulk-upload" name="bulk" class="ui form" enctype="multipart/form-data" action="/images" accept-charset="UTF-8" method="post">
+    <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
     <div class="field">
-      <%= form.label :pictures %>
-      <%= form.file_field :picture, multiple: true, id: 'files', accept: '.jpeg, .png' %>
+      <label for="image_pictures">Pictures</label>
+      <input multiple="multiple" id="files" accept=".jpeg, .png" type="file" name="image[picture][]">
     </div>
-
     <div class="actions text-center">
-      <%= form.submit value: 'Upload', class: 'ui primary button' %>
+      <input type="submit" name="commit" value="Upload" class="ui primary button" data-disable-with="Upload">
     </div>
-  <% end %>
+  </form>
   <br/>
   <br/>
   <div class="ui container center half-width">

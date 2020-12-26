@@ -1,15 +1,14 @@
 import "./semantic.min.js";
 
 $(function () {
-    let fileCount = 0;
-    $("form#bulk-upload").on("submit", function (e) {
+    $("form#single-upload").on("submit", function (e) {
         e.preventDefault();
-        let formElement = document.forms.namedItem("bulk");
+        console.log(e);
+        let formElement = document.forms.namedItem("single");
         let formData = new FormData(formElement);
-        var files = getFiles(e.currentTarget[1].files);
-        fileCount = files.length;
-        formData.append("count", files.length);
-        formData.delete("image[picture][]");
+        var file = e.currentTarget[1].files[0];
+        formData.append("count", 1);
+        formData.delete("image[picture]");
         fetch("/presigned_urls", {
             method: "POST",
             body: formData,
@@ -17,9 +16,7 @@ $(function () {
             if (res.ok) {
                 // start async upload to S3
                 res.json().then(function (entries) {
-                    for (let i = 0; i < files.length; i++) {
-                        uploadFileToS3(entries[i], files[i], i + 1);
-                    }
+                    uploadFileToS3(entries[0], file, 1);
                 });
             } else {
                 alert(
@@ -29,24 +26,12 @@ $(function () {
         });
     });
 
-    function getFiles(files) {
-        let out = [];
-        for (let i = 0; i < files.length; i++) {
-            const file = files[i];
-            if (["image/png", "image/jpeg"].includes(file.type)) {
-                out.push(file);
-            }
-        }
-        return out;
-    }
-
     async function uploadFileToS3(res, file, i) {
         let target = res.url;
         let options = {
             ...res.url_fields,
         };
         let formData = new FormData();
-
         for (let [key, value] of Object.entries(options)) {
             formData.append(key, value);
         }
@@ -56,7 +41,7 @@ $(function () {
 
         console.log(formData);
 
-        $("#bulk-progress").append(
+        $("#single-progress").append(
             `<div class='ui segment'><div class='ui progress' data-value='0' data-total='100' id='${i}'><div class='bar'><div class='progress'></div></div><div class='label'>Uploading...</div></div>`
         );
 
@@ -98,10 +83,10 @@ $(function () {
             let xml = evt.currentTarget.responseXML;
             let location = xml.getElementsByTagName("Location")[0].childNodes[0]
                 .nodeValue;
-            let formElement = document.forms.namedItem("bulk");
+            let formElement = document.forms.namedItem("single");
             let formData = new FormData(formElement);
             formData.append("image[picture_url]", location);
-            formData.delete("image[picture][]");
+            formData.delete("image[picture]");
             postToServer(formData, this.i);
         }
         return null;
@@ -122,14 +107,19 @@ $(function () {
     }
 
     async function postToServer(formData, i) {
-        await fetch("/bulk/single", {
+        await fetch("/images", {
             method: "POST",
             body: formData,
         }).then(function (res) {
+            console.log(res);
             if (res.status === 201) {
                 $(`#${i}`).progress("set success");
+                res.json().then(function (image) {
+                    console.log(image);
+                });
             } else {
                 $(`#${i}`).progress("set error");
+                console.log(res);
             }
         });
     }
