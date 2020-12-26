@@ -18,7 +18,7 @@ class ImagesController < ApplicationController
     @images = current_user.images
   end
 
-  # GET /images/:uuid
+  # GET /images/1
   def show
     if @image.private? && @image.user != current_user
       redirect_to(images_path, notice: 'You are not authorized to view this page.')
@@ -30,10 +30,12 @@ class ImagesController < ApplicationController
     @image = Image.new
   end
 
+  # GET /bulk/new
   def bulk_new
     @image = Image.new
   end
 
+  # GET /presigned_urls
   def get_presigned_urls
     if !params[:count] && !params[:count].is_a?(Integer)
       head :bad_request
@@ -69,6 +71,7 @@ class ImagesController < ApplicationController
     end
   end
 
+  # POST /bulk/single
   def bulk_create
     @image = Image.new(image_params.merge(user_id: current_user.id))
     if @image.save
@@ -78,6 +81,7 @@ class ImagesController < ApplicationController
     end
   end
 
+  # PATCH /images/1
   def edit_privacy
     head :forbidden if @image.user != current_user
 
@@ -101,12 +105,10 @@ class ImagesController < ApplicationController
 
   private
 
-  # Use callbacks to share common setup or constraints between actions.
   def set_image
     @image = Image.find(params[:id])
   end
 
-  # Only allow a list of trusted parameters through.
   def image_params
     params.require(:image).permit(:picture, :picture_url, :private)
   end
