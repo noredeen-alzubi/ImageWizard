@@ -1,6 +1,7 @@
 <div class="ui container single">
   <h3 class="text-center text-gray">Search Images by Labels (Comma Seperated)</h3>
   <%= form_tag(images_path, method: :get, id: 'search') do %>
+  <%= hidden_field_tag :authenticity_token, form_authenticity_token -%>
     <div class="ui search">
       <div class="ui icon input">
         <input name="search" class="prompt" type="text" placeholder="Labels...">
