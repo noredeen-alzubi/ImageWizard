@@ -4,7 +4,13 @@ class ImagesController < ApplicationController
 
   # GET /images
   def index
-    @images = Image.all
+    puts params
+    if params[:search]
+      labels = params[:search].split(',').map(&:strip)
+      @images = Image.tagged_with(labels, any: true).by_join_date.page(params[:page] || 1)
+    else
+      @images = Image.by_join_date.page(params[:page] || 1)
+    end
   end
 
   def my_index
@@ -13,6 +19,8 @@ class ImagesController < ApplicationController
 
   # GET /images/1
   def show
+    # puts "\n=========CDN============"
+    # puts rails_blob_url(@image.picture_url || @image.picture)
   end
 
   # GET /images/new
@@ -32,7 +40,7 @@ class ImagesController < ApplicationController
     signatures = []
     params[:count].to_i.times do
       presigned_url = S3_BUCKET.presigned_post(
-        key: "#{SecureRandom.uuid}${filename}",
+        key: "#{SecureRandom.uuid}_${filename}",
         success_action_status: '201',
         signature_expiration: (Time.now.utc + 15.minutes),
         acl: 'public-read'

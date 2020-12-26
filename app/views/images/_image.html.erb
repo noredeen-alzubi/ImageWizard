@@ -1,8 +1,12 @@
 <div class="ui card">
-  <a class="image me" href="<%= url_for image %>">
+  <div class="content">
+    <div class="right floated meta"><%= time_ago_in_words(image.created_at) %></div>
+    <%= image.user.full_name || 'Unnamed User' %>
+  </div>
+  <div class="image">
     <%# <%= image_tag image.cdn_url %>
     <img src="<%= image.cdn_url %>">
-  </a>
+  </div>
   <div class="content">
     <div class="meta">
       <span class="date"><%= image.id %></span>
@@ -15,9 +19,5 @@
     <% else %>
       <i class="spinner loading icon"></i>
     <% end %>
-    <i class="user icon"></i>
-    <div class="right floated author">
-      <%= link_to 'Delete', image, method: :delete, data: { confirm: 'Are you sure?' } %>
-    </div>
   </div>
 </div>

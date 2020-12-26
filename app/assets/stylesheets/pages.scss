@@ -65,3 +65,14 @@ div.labels {
 .labels .check {
     margin-left: 11px;
 }
+
+.ui.search {
+    width: 100% !important;
+    display: flex;
+    justify-content: center;
+}
+
+input.prompt {
+    width: 400px !important;
+    height: 55px;
+}

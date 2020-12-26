@@ -34,7 +34,7 @@ class MlWorker
       attrs = {
         image: {
           s3_object: {
-            bucket: ENV['S3-BUCKET'],
+            bucket: ENV['S3_BUCKET'],
             name: picture.filename.to_s
           }
         },
