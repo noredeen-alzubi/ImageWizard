@@ -27,7 +27,7 @@ class MlWorker
     if Rails.env.development? && !image.picture_url
       attrs = {
         image: {
-          bytes: picture.download
+          bytes: image.picture.download
         },
         max_labels: 15
       }
