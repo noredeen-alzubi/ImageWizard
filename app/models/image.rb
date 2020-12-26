@@ -14,7 +14,7 @@ class Image < ApplicationRecord
   end
 
   def handle_s3_resource
-    S3Worker.perform_async(picture_url) if picture_url
+    S3Worker.perform_async(filename) if picture_url
   end
 
   # Cannot user <%= image_tag %> with this
