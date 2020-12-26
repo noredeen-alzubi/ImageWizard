@@ -49,7 +49,8 @@ class ImagesController < ApplicationController
         signature_expiration: (Time.now.utc + 15.minutes),
         acl: 'public-read'
       )
-      puts presigned_url
+      puts "\n\nDEBUG: url: #{presigned_url.url}\n\n"
+      puts "\n\nDEBUG: fields: #{presigned_url.fields}\n\n"
       data = { url: presigned_url.url, url_fields: presigned_url.fields }
       signatures << data
     end
