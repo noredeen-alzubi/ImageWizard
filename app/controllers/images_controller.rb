@@ -8,6 +8,7 @@ class ImagesController < ApplicationController
     if params[:search]
       labels = params[:search].split(',').map(&:strip)
       @images = Image.tagged_with(labels, any: true).by_join_date.page(params[:page] || 1)
+      @query = labels.join(', ')
     else
       @images = Image.by_join_date.page(params[:page] || 1)
     end
@@ -17,10 +18,8 @@ class ImagesController < ApplicationController
     @images = current_user.images
   end
 
-  # GET /images/1
+  # GET /images/:uuid
   def show
-    # puts "\n=========CDN============"
-    # puts rails_blob_url(@image.picture_url || @image.picture)
   end
 
   # GET /images/new
