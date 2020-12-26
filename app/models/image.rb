@@ -19,12 +19,10 @@ class Image < ApplicationRecord
 
   # Cannot user <%= image_tag %> with this
   def cdn_url
-    if picture_url
+    if picture_url || Rails.env.production?
       "//#{ENV['CDN_HOST']}/#{filename}"
-    elsif Rails.env.development? || Rails.env.test?
-      Rails.application.routes.url_helpers.rails_blob_url(picture, only_path: true)
     else
-      "//#{ENV['CDN_HOST']}/#{picture.url}"
+      Rails.application.routes.url_helpers.rails_blob_url(picture, only_path: true)
     end
   end
 
