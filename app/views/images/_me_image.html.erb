@@ -1,12 +1,13 @@
 <div class="ui card">
   <a class="image me" href="<%= url_for image %>">
-    <%# <%= image_tag image.cdn_url %>
     <img src="<%= image.cdn_url %>">
   </a>
   <div class="content">
     <div class="meta">
       <span class="date"><%= image.id %></span>
+      <h5 class="<%= image.private? ? 'text-red' : '' %>"><%= image.private? ? 'Private' : 'Public' %></h5>
     </div>
+    <br/>
   </div>
   <div class="extra content">
     Labeling:
@@ -21,3 +22,5 @@
     </div>
   </div>
 </div>
+
+<%= javascript_pack_tag 'me_image' %>

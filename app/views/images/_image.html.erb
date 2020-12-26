@@ -4,12 +4,13 @@
     <%= image.user.full_name || 'Unnamed User' %>
   </div>
   <div class="image">
-    <%# <%= image_tag image.cdn_url %>
     <img src="<%= image.cdn_url %>">
   </div>
   <div class="content">
     <div class="meta">
-      <span class="date"><%= image.id %></span>
+      <a href="<%= url_for image %>"> 
+        <span class="date"><%= image.id %></span>
+      </a>
     </div>
   </div>
   <div class="extra content">

@@ -38,6 +38,10 @@ h2.labels {
     color: purple;
 }
 
+.text-red {
+    color: maroon;
+}
+
 .text-gray {
     color: gray;
 }
@@ -85,4 +89,8 @@ button.search-btn {
     height: 60% !important;
     align-self: center;
     margin-left: 15px !important;
+}
+
+.hidden {
+    visibility: hidden;
 }

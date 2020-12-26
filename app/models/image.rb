@@ -7,6 +7,7 @@ class Image < ApplicationRecord
   after_commit :process
   before_destroy :handle_s3_resource
   scope :by_join_date, -> { order('created_at DESC') }
+  scope :only_public, -> { where(private: false) }
 
   def process
     MlWorker.perform_async(id) unless processed? || destroyed?

@@ -1,16 +1,16 @@
 class ImagesController < ApplicationController
-  before_action :set_image, only: %i[show destroy]
-  before_action :authenticate_user!, only: %i[my_index new bulk_new create bulk_create destroy get_presigned_urls]
+  before_action :set_image, only: %i[show destroy edit_privacy]
+  before_action :authenticate_user!, only: %i[my_index new bulk_new create bulk_create destroy get_presigned_urls edit_privacy]
 
   # GET /images
   def index
     puts params
     if params[:search]
       labels = params[:search].split(',').map(&:strip)
-      @images = Image.tagged_with(labels, any: true).by_join_date.page(params[:page] || 1)
+      @images = Image.tagged_with(labels, any: true).only_public.by_join_date.page(params[:page] || 1)
       @query = labels.join(', ')
     else
-      @images = Image.by_join_date.page(params[:page] || 1)
+      @images = Image.only_public.by_join_date.page(params[:page] || 1)
     end
   end
 
@@ -20,6 +20,9 @@ class ImagesController < ApplicationController
 
   # GET /images/:uuid
   def show
+    if @image.private? && @image.user != current_user
+      redirect_to(images_path, notice: 'You are not authorized to view this page.')
+    end
   end
 
   # GET /images/new
@@ -75,6 +78,18 @@ class ImagesController < ApplicationController
     end
   end
 
+  def edit_privacy
+    head :forbidden if @image.user != current_user
+
+    @image.private = image_params[:private] if image_params[:private]
+
+    if @image.save
+      head :ok
+    else
+      head :unprocessable_entity
+    end
+  end
+
   # DELETE /images/1
   def destroy
     @image.destroy
@@ -93,6 +108,6 @@ class ImagesController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def image_params
-    params.require(:image).permit(:picture, :picture_url)
+    params.require(:image).permit(:picture, :picture_url, :private)
   end
 end

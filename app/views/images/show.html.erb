@@ -1,6 +1,21 @@
-<p id="notice"><%= notice %></p>
-
 <div class="ui container center first">
+  <% if current_user == @image.user %>
+    <form name="privacy" action="<%= url_for @image %>" method="patch">
+      <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+      <div class="inline field">
+        <div class="ui toggle checkbox">
+          <% if @image.private? %>
+            <input type="checkbox" tabindex="0" class="" id="checkbox" checked>
+          <% else %>
+            <input type="checkbox" tabindex="0" class="" id="checkbox">
+          <% end %>
+          <label id="status">Private <%= "(won't show up in Discover and cannot be directly accessed)" if @image.private? %></label>
+        </div>
+        <i class="spinner loading icon hidden" id="loader"></i>
+      </div>
+    </form>
+  <% end %>
+  <br/>
   <div class="ui placeholder fluid" id="placeholder">
     <h3 class="ui top attached header">
       ID: <span class="text-gray"><%= @image.id %></span>
@@ -25,7 +40,7 @@
     <div class="labels">
       <% if @image.processed? %>
         <% @image.label_list.each do |label| %>
-          <span class="ui large tag label"><%= label %></span>
+          <span class="ui large brown tag label"><%= label %></span>
         <% end %>
       <% end %>
     </div>
@@ -37,3 +52,5 @@
 <br/>
 <br/>
 <br/>
+
+<%=javascript_pack_tag 'me_image' %>

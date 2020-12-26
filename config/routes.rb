@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   end
 
   resources :images, except: %i[edit update], concerns: :paginatable
+  patch 'images/:id', to: 'images#edit_privacy'
   post '/presigned_urls', to: 'images#get_presigned_urls'
   get '/bulk/new', to: 'images#bulk_new'
   post '/bulk/single', to: 'images#bulk_create'
