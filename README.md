@@ -1,6 +1,6 @@
 # Shopify Intern Dev Challenge 2021
 
-This is my spin on an image repository with Ruby on Rails and PostgreSQL. I've chosen to do this without ActiveStorage to have complete freedom with how images are handled. This choice allowed me to use background jobs (Sidekiq and Redis) for all the heavy lifting.
+This is my spin on an image repository with Ruby on Rails and PostgreSQL. I've chosen to do this without ActiveStorage to have complete freedom over how images are handled. This choice allowed me to use background jobs (Sidekiq and Redis) for all the heavy lifting.
 
 - **Image labelling via the Amazon Rekognition service**: On every image upload, I enque a background job on the backend that communicates with the service to fetch labels for the image.
 - **Search for images with text**: Query images with the labels we got from processing.
