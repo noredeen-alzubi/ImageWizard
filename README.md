@@ -15,6 +15,9 @@ Besides these core featurs, this application supports pagination and secure sess
 
 ### I'm a fan of doing things in background jobs, especially when Redis is the queue.
 We just have to be careful about the assumptions we make about our resources and handle failed jobs.
+</br>
+</br>
+
 
 ## USAGE NOTES:
 
