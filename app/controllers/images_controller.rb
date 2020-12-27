@@ -43,18 +43,10 @@ class ImagesController < ApplicationController
 
     signatures = []
     params[:count].to_i.times do
-      presigned_url = S3_BUCKET.presigned_post(
-        key: "#{SecureRandom.uuid}_${filename}",
-        success_action_status: '201',
-        signature_expiration: (Time.now.utc + 15.minutes),
-        acl: 'public-read'
-      )
-      puts "\n\nDEBUG: url: #{presigned_url.url}\n\n"
-      puts "\n\nDEBUG: fields: #{presigned_url.fields}\n\n"
-      data = { url: presigned_url.url, url_fields: presigned_url.fields }
+      data = Image.new_presigned_url
       signatures << data
     end
-    puts "\n\nSUCCESS: #{signatures}\n\n"
+
     render json: signatures, status: :ok
   end
 
@@ -62,7 +54,7 @@ class ImagesController < ApplicationController
   def create
     @image = Image.new(image_params.merge(user_id: current_user.id))
     if @image.save
-      render json: @image, status: :created
+      render json: JSON::parse(@image.to_json).merge(image_url: url_for(@image)), status: :created
     else
       head :unprocessable_entity
     end

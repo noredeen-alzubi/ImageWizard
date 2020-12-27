@@ -1,7 +1,7 @@
 class S3Worker
   include Sidekiq::Worker
 
-  def perform(s3_url)
-    S3_BUCKET.object(s3_url).delete
+  def perform(filename)
+    S3_BUCKET.object(filename).delete
   end
 end

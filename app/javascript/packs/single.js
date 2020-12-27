@@ -115,7 +115,10 @@ $(function () {
             if (res.status === 201) {
                 $(`#${i}`).progress("set success");
                 res.json().then(function (image) {
-                    console.log(image);
+                    $("#single-progress").append(
+                        `<br/><div class="text-center"><a href="${image.image_url}" class='ui primary button'>Go to image</a></div><br/>`
+                    );
+                    console.log(res);
                 });
             } else {
                 $(`#${i}`).progress("set error");
