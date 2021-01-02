@@ -13,15 +13,10 @@ Besides these core featurs, this application supports pagination and secure sess
 </br>
 </br>
 
-### I'm a fan of doing things in background jobs, especially when Redis is the queue.
-We just have to be careful about the assumptions we make about our resources and handle failed jobs.
-</br>
-</br>
-
-
 ## USAGE NOTES:
 
 * The email required to create the account needn't be valid (username would've been a better choice).
 * You can control your uploaded images from the 'My Uploads' page.
 * If you get alerts asking for a page refresh, refreshing the page will likely solve the issue (generating a new authenticity token). So refresh the page!
 * The file type validations I added are not stringent at all and can be bypassed. Nothing crazy should happen but the workers will eventually give up on trying to process the file.
+
