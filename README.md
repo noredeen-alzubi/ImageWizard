@@ -1,4 +1,4 @@
-# Shopify Intern Dev Challenge 2021
+# ImageWiz
 
 This is my spin on an image repository with Ruby on Rails and PostgreSQL. I've chosen to do this without ActiveStorage to have complete freedom over how images are handled. This choice allowed me to use background jobs (Sidekiq and Redis) for all the heavy lifting.
 
